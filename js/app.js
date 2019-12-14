@@ -14,7 +14,6 @@ let moves = 0;
 let time = 0;
 
 restartGame();
-startTimer();
 restart.addEventListener('click', restartGame);
 
 replay.addEventListener('click', restartGame);
@@ -31,6 +30,7 @@ function restartGame(){
     moves = 0;
     time = 0;
     timer.innerHTML = time;
+    startTimer();
     movesCounter.innerHTML = moves;
     stars.innerHTML = `<li><i class="fa fa-star"></i></li>
     <li><i class="fa fa-star"></i></li>
@@ -101,7 +101,7 @@ function rateDown(){
 function incrementMoves(){
     moves++
     movesCounter.innerHTML = moves;
-    if (moves == 12 || moves == 20){
+    if (moves == 15 || moves == 25){
         rateDown();
     }
 }
