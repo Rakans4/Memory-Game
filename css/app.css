@@ -39,7 +39,7 @@ h1 {
 
 .deck {
     width: 660px;
-    min-height: 680px;
+    height: 680px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
@@ -155,17 +155,7 @@ h1 {
 @media screen and (max-width: 990px) {
     .score-panel {
         width: 80%;
-        font-size: 2em;
-    }
-
-    .deck {
-        width: 90%;
-        height: 970px;
-    }
-
-    .deck .card {
-        height: 180px;
-        width: 180px;
+        font-size: 1em;
     }
 
     .modal {
@@ -176,5 +166,18 @@ h1 {
     .replay-btn {
         height: 6em;
         width: 10em;
+    }
+}
+
+@media screen and (max-width: 676px) {
+    .deck {
+        max-width: 370px;
+        height: 550px;
+        padding: 20px;
+    }
+
+    .deck .card {
+        height: 90px;
+        width: 77px;
     }
 }
