@@ -148,12 +148,33 @@ h1 {
     color: #fff;
 }
 
-.replay-btn:hover {
-    
-}
+/* 
+ * Responsive style for tablet and phones
+ */
 
-/* @media screen and (max-width: 990px) {
+@media screen and (max-width: 990px) {
+    .score-panel {
+        width: 80%;
+        font-size: 2em;
+    }
+
     .deck {
         width: 90%;
+        height: 970px;
     }
-} */
+
+    .deck .card {
+        height: 180px;
+        width: 180px;
+    }
+
+    .modal {
+        width: 90%;
+        font-size: 2em;
+    }
+
+    .replay-btn {
+        height: 6em;
+        width: 10em;
+    }
+}
