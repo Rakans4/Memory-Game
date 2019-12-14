@@ -1,11 +1,44 @@
-/*
- * Create a list that holds all of your cards
- */
+// getting elements from the DOM
+const stars = document.querySelector('.stars');
+const timer = document.querySelector('.timer');
 const deck = document.querySelector('.deck');
+const restart = document.querySelector('.restart');
+const modal = document.querySelector(".modal");
+const replay = document.querySelector('.replay-btn');
 let cards = document.querySelectorAll('.card');
-const restart = document.getElementsByClassName('restart')[0];
+let movesCounter = document.querySelector('.moves');
+let finalScore = document.querySelector('.final-score');
+let shown = [];
+let matched = 0;
+let moves = 0;
+let time = 0;
 
-restart.addEventListener('click', function(){
+restartGame();
+startTimer();
+restart.addEventListener('click', restartGame);
+
+replay.addEventListener('click', restartGame);
+
+// restart and reset the values of the previous game
+function restartGame(){
+    modal.style.display = "none";
+    renderCards();
+    for (const card of cards){
+        card.addEventListener('click', show);
+    }
+    stopTimer();
+    matched = 0;
+    moves = 0;
+    time = 0;
+    timer.innerHTML = time;
+    movesCounter.innerHTML = moves;
+    stars.innerHTML = `<li><i class="fa fa-star"></i></li>
+    <li><i class="fa fa-star"></i></li>
+    <li><i class="fa fa-star"></i></li>`;
+}
+
+// shuffle and render the cards on deck
+function renderCards() {
     for (const card of cards) {
         card.classList.remove('match', 'show', 'open');
     }
@@ -15,14 +48,90 @@ restart.addEventListener('click', function(){
         fragment.appendChild(card);
     }
     deck.appendChild(fragment);
-});
+}
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+// show and close cards for every move
+function show() {
+    let target = event.target;
+    if(shown.length < 2) {
+        target.classList.add('show', 'open');
+        shown.push(target)
+        target.removeEventListener('click', show);
+        if (shown.length == 2) {
+            setTimeout('compare(shown)', 300);
+        }
+    }
+}
+
+function close(twoCards) {
+    shown = [];
+    twoCards[0].classList.remove('show', 'open');
+    twoCards[0].addEventListener('click', show);
+    twoCards[1].classList.remove('show', 'open');
+    twoCards[1].addEventListener('click', show);
+}
+
+// lock the matched cards and let them show
+function match(twoCards) {
+    shown = [];
+    for (const card of twoCards) {
+        card.classList.add('match');
+        card.classList.remove('show', 'open');
+    }
+    matched += 2;
+    if(matched == cards.length){
+        finishGame();
+    }
+}
+
+// compare between the two selected cards
+function compare(twoCards) {
+    incrementMoves();
+    if(twoCards[0].firstElementChild.classList[1] == twoCards[1].firstElementChild.classList[1]) {
+        match(twoCards);
+    }else {
+        close(twoCards);
+    }
+}
+
+function rateDown(){
+    stars.removeChild(stars.firstElementChild);
+}
+
+function incrementMoves(){
+    moves++
+    movesCounter.innerHTML = moves;
+    if (moves == 12 || moves == 20){
+        rateDown();
+    }
+}
+
+// start and stop the timer
+var myTimer;
+function startTimer(){
+    myTimer = setInterval(function() {
+    time++;
+    timer.innerHTML = time;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(myTimer);
+}
+
+// display the result of the game
+function finishGame(){
+    finalScore.innerHTML = `<p>You won with ${moves} moves and ${stars.childElementCount} stars</p>`
+    stopTimer();
+    modal.style.display = "block";
+}
+
+// hide the modal
+window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+});
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -37,22 +146,4 @@ function shuffle(array) {
     }
 
     return array;
-}
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-for (const card of cards){
-        card.addEventListener('click', function() {
-        card.classList.add('show', 'open');
-    });
 }

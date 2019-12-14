@@ -86,6 +86,8 @@ h1 {
  */
 
 .score-panel {
+    display: flex;
+    justify-content: space-between;
     text-align: left;
     width: 345px;
     margin-bottom: 10px;
@@ -107,3 +109,51 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/*
+ * Styles for the Modal after finishing the game
+ */
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding-top: 30vh;
+    background-color: #00000080;
+}
+
+.modal-content {
+    width: 60%;
+    border-radius: 8px;
+    margin: auto;
+    padding: 26px;
+    text-align: center;
+    background-color: #eee;
+}
+
+/*
+ * Styles for the replay button
+ */
+
+.replay-btn {
+    height: 2em;
+    width: 6em;
+    border-radius: 5px;
+    border: 0;
+    background: #02b3e4;
+    color: #fff;
+}
+
+.replay-btn:hover {
+    
+}
+
+/* @media screen and (max-width: 990px) {
+    .deck {
+        width: 90%;
+    }
+} */
